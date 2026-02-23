@@ -6989,9 +6989,8 @@ def _get_tronbyte_repository_class() -> Type[Any]:
     if not module_path.exists():
         raise ImportError(f"TronbyteRepository module not found at {module_path}")
 
-    # If already imported, reload to pick up code changes
+    # If already imported, return cached class
     if "tronbyte_repository" in sys.modules:
-        importlib.reload(sys.modules["tronbyte_repository"])
         return sys.modules["tronbyte_repository"].TronbyteRepository
 
     spec = importlib.util.spec_from_file_location("tronbyte_repository", str(module_path))
@@ -7016,9 +7015,8 @@ def _get_pixlet_renderer_class() -> Type[Any]:
     if not module_path.exists():
         raise ImportError(f"PixletRenderer module not found at {module_path}")
 
-    # If already imported, reload to pick up code changes
+    # If already imported, return cached class
     if "pixlet_renderer" in sys.modules:
-        importlib.reload(sys.modules["pixlet_renderer"])
         return sys.modules["pixlet_renderer"].PixletRenderer
 
     spec = importlib.util.spec_from_file_location("pixlet_renderer", str(module_path))
@@ -7442,7 +7440,7 @@ def upload_starlark_app():
             except OSError:
                 pass
 
-    except (ValueError, OSError, IOError) as e:
+    except Exception as e:
         logger.exception("[Starlark] Error uploading starlark app")
         return jsonify({'status': 'error', 'message': 'Failed to upload app'}), 500
 
