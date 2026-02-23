@@ -7440,8 +7440,14 @@ def upload_starlark_app():
             except OSError:
                 pass
 
-    except Exception as e:
-        logger.exception("[Starlark] Error uploading starlark app")
+    except (OSError, IOError) as err:
+        logger.exception("[Starlark] File error uploading starlark app: %s", err)
+        return jsonify({'status': 'error', 'message': f'File error during upload: {err}'}), 500
+    except ImportError as err:
+        logger.exception("[Starlark] Module load error uploading starlark app: %s", err)
+        return jsonify({'status': 'error', 'message': f'Failed to load app module: {err}'}), 500
+    except Exception as err:
+        logger.exception("[Starlark] Unexpected error uploading starlark app: %s", err)
         return jsonify({'status': 'error', 'message': 'Failed to upload app'}), 500
 
 
