@@ -18,5 +18,5 @@ jobs:
         with:
           target_sync_branch: main        # The branch in your fork to update
           target_repo_token: ${{ secrets.GITHUB_TOKEN }} # Built-in token, no setup required
-          upstream_sync_repo: owner/repo  # Replace with the ORIGINAL repository (e.g., facebook/react)
+          upstream_sync_repo: ChuckBuilds/LEDMatrix  # Replace with the ORIGINAL repository (e.g., facebook/react)
           upstream_sync_branch: main      # The branch you are pulling from the original repo
